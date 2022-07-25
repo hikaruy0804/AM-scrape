@@ -21,7 +21,7 @@ cd /[プロジェクトを作成したいディレクトリ]　
 scrapy startproject [プロジェクト名]　##任意のプロジェクト名
 cd /[プロジェクト名]
 ```
-と設定します。今回プロジェクト名任意で設定しますが今回は以下のとおりでは行いましょう。
+とします。今回は以下のとおりでは行いましょう。
 ```
 cd /[プロジェクトを作成したいディレクトリ]　
 scrapy startproject [プロジェクト名]　##任意のプロジェクト名
@@ -33,7 +33,10 @@ cd /[プロジェクト名]
 ```
 scrapy genspider [spiderのファイル名] [httpsなしのスクレイピング対象のURL]　##spiderは任意の名前
 ```
-
+とします。今回は以下のとおりでは行いましょう。
+```
+scrapy genspider [spiderのファイル名] [httpsなしのスクレイピング対象のURL]　##spiderは任意の名前
+```
 #### 4.作成したプロジェクトフォルダ内にあるsettig.pyの設定
 ##### settig.py
 ```
@@ -62,7 +65,11 @@ response.css['cssコード']
 #### 7.スクレイピングを開始
 ##### ターミナル上
 ```
-scrapy crawl [museum_scrap] -o [出力したいファイル名].json
+scrapy crawl [spider名] -o [出力したいファイル名].json
+```
+とします。今回は以下のとおりでは行いましょう。
+```
+scrapy crawl [spider名] -o [出力したいファイル名].json
 ```
 ※出力ファイルはjson,csv,xmlに設定できますので拡張子部分を修正してください。
 
