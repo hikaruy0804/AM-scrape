@@ -24,10 +24,10 @@ cd /[プロジェクト名]
 とします。今回は以下のとおりでは行いましょう。
 ```
 cd /project
-scrapy startproject museum_info　##任意のプロジェクト名
+scrapy startproject museum_info
 cd /museum_info
 ```
-　※パスの調整は各自でしてください。
+※パスの調整は各自でしてください。
 #### 3.spider（取得するサイトや内容を記述する.pyファイル）の作成
 ##### ターミナル上
 ```
@@ -50,10 +50,70 @@ FEED_EXPORT_ENCODING = 'utf-8'
 
 #### 5.spiderフォルダ内の[spider名].pyの設定
 ##### [spider名].py
+[設定したspiderのファイル名].pyを開く
+allowed_domainsをドメイン名のみに設定
+```
+allowed_domains = ['www.museum.or.jp']
+```
+start_urlsはスクレイピング対象のURLで最後尾’/’を削除する。
+```
+start_urls = ['https://www.museum.or.jp/museum']
+```
+今回はなぜかサブディレクトリ（/museum）が設定されませんのでご注意ください。
+
 メモしていたxpathを使ってコードを記述していく。
  
-※今回はこのレポジトリ内のmuseum_overview.pyにあるdef parse(self, response)以下のコードをコピーして自分のmuseum_overview.pyのファイル内に貼り付けてください。
- 
+※今回はこのレポジトリ内のmuseum_overview.pyにあるdef parse(self, response)以下のコードをコピーして自分のファイルに貼り付けてください。
+
+museum_overview.py
+```
+import scrapy
+
+class MuseumOverviewSpider(scrapy.Spider):
+    name = 'museum_overview'
+    allowed_domains = ['www.museum.or.jp'] #ホームページドメイン名に修正（サブディレクトリを削除）
+    start_urls = ['https://www.museum.or.jp/museum'] #検索したいページのURL 最後尾の'/'を削除
+    
+    def parse(self, response):
+        #最後のページ数を取得
+        
+        #取得要素の設定
+        infos = response.xpath(' //div[@class="c-museumItem_content_row_name c-clampLines is-clampline3"]')
+        for info in infos:
+            title = self.get_title(info.xpath('./text()').get())
+            url = self.get_url(info.xpath('./parent::a/@href').get())
+            yield{
+                'title':title,
+                'url':url
+            }
+            
+        #次ページへリンクテスト用
+
+        #最後のページ数を超えるまで次のページへ移動してスクレイプ
+            last_pages = response.xpath('//button[@class="v-pagination__item"]/text()')
+            last_page = str(last_pages[-1])
+            last_page = (int(last_page[-5:-2]))
+            #print(last_page)
+            i = 2
+            for t in range(5): #last_page 全ページの取得をしません。
+                t = i + t
+                if last_page >= t:       
+                    next_page = f'https://www.museum.or.jp/museum?page={t}'
+                    yield response.follow(url=next_page, callback=self.parse)
+        
+    #/nや空白を削除      
+    def get_title(self,title):
+        if title:
+            return title.replace('\n','').replace(' ','')
+        return 0
+    
+    def get_url(self,url):
+        if url:
+            url = 'https://www.museum.or.jp/' + url
+            return url
+        return 0    
+```
+
 xpathで記述していますがCSSの場合は、
 ```
 response.css['cssコード']
