@@ -23,9 +23,9 @@ cd /[プロジェクト名]
 ```
 とします。今回は以下のとおりでは行いましょう。
 ```
-cd /[プロジェクトを作成したいディレクトリ]　
-scrapy startproject [プロジェクト名]　##任意のプロジェクト名
-cd /[プロジェクト名]
+cd /project
+scrapy startproject museum_info　##任意のプロジェクト名
+cd /museum_info
 ```
 　※パスの調整は各自でしてください。
 #### 3.spider（取得するサイトや内容を記述する.pyファイル）の作成
@@ -35,7 +35,7 @@ scrapy genspider [spiderのファイル名] [httpsなしのスクレイピング
 ```
 とします。今回は以下のとおりでは行いましょう。
 ```
-scrapy genspider [spiderのファイル名] [httpsなしのスクレイピング対象のURL]　##spiderは任意の名前
+scrapy genspider museum_overview www.museum.or.jp/museum
 ```
 #### 4.作成したプロジェクトフォルダ内にあるsettig.pyの設定
 ##### settig.py
@@ -50,8 +50,10 @@ FEED_EXPORT_ENCODING = 'utf-8'
 
 #### 5.spiderフォルダ内の[spider名].pyの設定
 ##### [spider名].py
-　メモしていたxpathを使ってコードを記述していく。
-　※今回はこのレポジトリ内の　にあるclassより下をコピーして自分の[spider名].pyのファイル内に貼り付けてください。
+メモしていたxpathを使ってコードを記述していく。
+ 
+※今回はこのレポジトリ内のmuseum_overview.pyにあるdef parse(self, response)以下のコードをコピーして自分のmuseum_overview.pyのファイル内に貼り付けてください。
+ 
 xpathで記述していますがCSSの場合は、
 ```
 response.css['cssコード']
@@ -62,24 +64,24 @@ response.css['cssコード']
 #### 6.プロジェクト名のディレクトリにいることを確認
 
 
-#### 7.スクレイピングを開始
+#### 7.スクレイピングを開始 csvで出力
 ##### ターミナル上
 ```
-scrapy crawl [spider名] -o [出力したいファイル名].json
+scrapy crawl [spider名] -o [出力したいファイル名].csv
 ```
 とします。今回は以下のとおりでは行いましょう。
 ```
-scrapy crawl [spider名] -o [出力したいファイル名].json
+scrapy crawl  museum_overview -o test.csv
 ```
 ※出力ファイルはjson,csv,xmlに設定できますので拡張子部分を修正してください。
 
-### 完了
+### 完了でーす。プロジェクトフォルダ内にcsvファイルが出力されています。
 
 #### その他
--スクレイピングをしすぎるとサーバに負荷がかかって迷惑になるかもしれないため◎ページ目までを取得するコードにしています。
--次ページ設定コードのコメントアウトを解除すると全ページ分のデータが取得できます。
--スクロールはサーバに負荷がかかることがあるためサイトによっては禁止されています。
--スクロールの練習をするときは[Books to Scrape(練習サイト)](https://books.toscrape.com/index.html)で練習しましょう。
+- スクレイピングをしすぎるとサーバに負荷がかかって迷惑になるかもしれないため数ページだけを取得するコードにしています。
+- 次ページ設定コードのコメントアウトを解除すると全ページ分のデータが取得できます。
+- スクロールはサーバに負荷がかかることがあるためサイトによっては禁止されています。
+- スクロールの練習をするときは[Books to Scrape(練習サイト)](https://books.toscrape.com/index.html)で練習しましょう。
 
 #### 参考
 [xpathの記述方法](https://ai-inter1.com/xpath/)
