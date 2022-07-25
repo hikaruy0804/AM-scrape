@@ -140,8 +140,8 @@ scrapy crawl  museum_overview -o test.csv
 #### その他
 - スクレイピングをしすぎるとサーバに負荷がかかって迷惑になるかもしれないため数ページだけを取得するコードにしています。
 - rangeのあたりをいじると全ページ分のデータが取得できます。
-- スクロールはサーバに負荷がかかることがあるためサイトによっては禁止されています。
-- スクロールの練習をするときは[Books to Scrape(練習サイト)](https://books.toscrape.com/index.html)で練習しましょう。
+- スクレイピングはサーバに負荷がかかることがあるためサイトによっては禁止されています。
+- 練習は[Books to Scrape(練習サイト)](https://books.toscrape.com/index.html)で練習しましょう。
 
 #### 参考
 [xpathの記述方法](https://ai-inter1.com/xpath/)
