@@ -86,8 +86,6 @@ class MuseumOverviewSpider(scrapy.Spider):
                 'title':title,
                 'url':url
             }
-            
-        #次ページへリンクテスト用
 
         #最後のページ数を超えるまで次のページへ移動してスクレイプ
             last_pages = response.xpath('//button[@class="v-pagination__item"]/text()')
