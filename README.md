@@ -21,7 +21,7 @@ cd /[プロジェクトを作成したいディレクトリ]　
 scrapy startproject [プロジェクト名]　##任意のプロジェクト名
 cd /[プロジェクト名]
 ```
-とします。今回は以下のとおりでは行いましょう。
+とします。今回は以下のとおりで行いましょう。
 ```
 cd /project
 scrapy startproject museum_info
@@ -33,7 +33,7 @@ cd /museum_info
 ```
 scrapy genspider [spiderのファイル名] [httpsなしのスクレイピング対象のURL]　##spiderは任意の名前
 ```
-とします。今回は以下のとおりでは行いましょう。
+とします。今回は以下のとおりで行いましょう。
 ```
 scrapy genspider museum_overview www.museum.or.jp/museum
 ```
@@ -63,7 +63,7 @@ start_urls = ['https://www.museum.or.jp/museum']
 
 メモしていたxpathを使ってコードを記述していく。
  
-※今回はこのレポジトリ内のmuseum_overview.pyにあるdef parse(self, response)以下のコードをコピーして自分のファイルに貼り付けてください。
+※今回は以下のコードを貼り付けてください。
 
 museum_overview.py
 ```
@@ -75,7 +75,6 @@ class MuseumOverviewSpider(scrapy.Spider):
     start_urls = ['https://www.museum.or.jp/museum'] #検索したいページのURL 最後尾の'/'を削除
     
     def parse(self, response):
-        #最後のページ数を取得
         
         #取得要素の設定
         infos = response.xpath(' //div[@class="c-museumItem_content_row_name c-clampLines is-clampline3"]')
@@ -87,7 +86,8 @@ class MuseumOverviewSpider(scrapy.Spider):
                 'url':url
             }
 
-        #最後のページ数を超えるまで次のページへ移動してスクレイプ
+        #rangeの範囲で次のページへ移動してスクレイプ
+        #最後のページ数を取得
             last_pages = response.xpath('//button[@class="v-pagination__item"]/text()')
             last_page = str(last_pages[-1])
             last_page = (int(last_page[-5:-2]))
@@ -127,7 +127,7 @@ response.css['cssコード']
 ```
 scrapy crawl [spider名] -o [出力したいファイル名].csv
 ```
-とします。今回は以下のとおりでは行いましょう。
+とします。今回は以下のとおりで行いましょう。
 ```
 scrapy crawl  museum_overview -o test.csv
 ```
